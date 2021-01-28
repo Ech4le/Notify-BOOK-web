@@ -1,14 +1,16 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
 
-const Home = () => {
+const Navigation = () => {
     return(
-        <div>
-            <h1>Notedly</h1>
-            <p>To jest strona tytulowa</p>
-            {/* Miejsce na liste laczy */}
+        <nav>
             <ul>
+                <li>
+                    <span aria-hidden="true" role="img">
+                        ASD 
+                    </span>
+                    <Link to="/">Strona główna</Link>
+                </li>
                 <li>
                     <Link to="/mynotes">Moje notatki</Link>
                 </li>
@@ -16,8 +18,8 @@ const Home = () => {
                     <Link to="/favorites">Ulubione</Link>
                 </li>
             </ul>
-        </div>
+        </nav>
     );
 };
 
-export default Home;
+export default Navigation;
