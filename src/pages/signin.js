@@ -1,26 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useMutation, useApolloClient, gql } from '@apollo/client';
 
 import UserForm from '../components/UserForm';
 
-const SIGNUP_USER = gql`
-    mutation signUp($email: String!, $username: String!, $password: String!) {
-        signUp(email: $email, username: $username, password: $password)
+const SIGNIN_USER = gql`
+    mutation signIn($email: String, $password: String!) {
+        signIn(email: $email, password: $password)
     }
 `;
 
-const SignUp = props => {
+const SignIn = props => {
     useEffect(() => {
         // Uaktualnienie tytulu strony
-        document.title = 'Rejestracja - Notedly';
+        document.title = 'Logowanie - Notedly';
     });
 
-    // Klient Apollo
     const client = useApolloClient();
-    const [signUp, { loading, error }] = useMutation(SIGNUP_USER, {
+    const [signIn, { loading, error }] = useMutation(SIGNIN_USER, {
         onCompleted: data => {
             // Przechowywanie tokena
-            localStorage.setItem('token', data.signUp);
+            localStorage.setItem('token', data.signIn);
 
             // Uaktualnienie bufora lokalnego
             client.writeData({ data: { isLoggedIn: true } });
@@ -32,11 +31,11 @@ const SignUp = props => {
 
     return (
         <React.Fragment>
-            <UserForm action={signUp} formType="signup" />
+            <UserForm action={signIn} formType="signIn" />
             {loading && <p>Wczytywanie...</p>}
-            {error && <p>Blad podczas tworzenia konta!</p>}
+            {error && <p>Blad podczas logowania!</p>}
         </React.Fragment>
     );
 };
 
-export default SignUp;
+export default SignIn;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // Import bibliotek do uzycia API
 import { useQuery, gql } from '@apollo/client';
@@ -29,6 +29,11 @@ const GET_NOTES = gql`
 `;
 
 const Home = () => {
+    useEffect(() => {
+        // Uaktualnienie tytulu strony
+        document.title = 'Notedly';
+    });
+
     // Zaczep zapytania
     const { data, loading, error, fetchMore } = useQuery(GET_NOTES);
 

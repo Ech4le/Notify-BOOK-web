@@ -11,18 +11,46 @@ import GlobalStyle from '/components/GlobalStyle';
 import Pages from '/pages';
 
 // Import bibliotek klienta Apollo
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { 
+    ApolloClient, 
+    ApolloProvider, 
+    InMemoryCache,
+    createHttpLink,
+} from '@apollo/client';
+import { setContext } from 'apollo-link-context';
 
 // Konfiguracja adresu URI naszego API i bufora
 const uri = process.env.API_URI;
+const httpLink = createHttpLink({ uri });
 const cache = new InMemoryCache();
+
+const authLink = setContext((_, { headers }) => {
+    return {
+        headers: {
+            ...headers,
+            authorization: localStorage.getItem('token') || ''
+        }
+    };
+});
 
 // Konfiguracja klienta Apollo
 const client = new ApolloClient({
-    uri,
+    link: authLink.concat(httpLink),
     cache,
+    resolvers: {},
     connectToDevTools: true
 })
+
+// Sprawdzenie pod katem lokalnego tokena
+const data = {
+    isLoggedIn: !!localStorage.getItem('token')
+};
+
+// Zapis danych bufora podczas poczatkowego wczytywania strony
+cache.writeData({ data });
+
+// Zapis danych bufora po jego wyzerowaniu
+client.onResetStore(() => cache.writeData({ data }));
 
 const App = () => {
     return (
