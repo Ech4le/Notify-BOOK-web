@@ -63,6 +63,12 @@ const Navigation = () => {
                     </span>
                     <Link to="/favorites"> Ulubione</Link>
                 </li>
+                <li>
+                    <span aria-hidden="true" role="img">  
+                        <i className="fa fa-comment"></i>
+                    </span>  
+                    <Link to="/new"> Nowa</Link>
+                </li>
             </NavList>
         </Nav>
     );
