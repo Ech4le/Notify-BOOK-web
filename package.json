@@ -9,8 +9,7 @@
     "deploy:src": "parcel build src/index.html --public-url ./",
     "deploy:final": "parcel build final/index.html --public-url ./",
     "cy:run": "cypress run",
-    "cy:open": "cypress open",
-    "test": "jest"
+    "cy:open": "cypress open"
   },
   "keywords": [],
   "author": "Adam Scott <adam@jseverywhere.io>",
