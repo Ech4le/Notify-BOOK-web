@@ -1,4 +1,8 @@
 import React, { useEffect } from 'react';
+import { useQuery, gql } from '@apollo/client';
+
+import NoteFeed from '../components/NoteFeed';
+import { GET_MY_FAVORITES } from '../gql/query';
 
 const Favorites = () => {
     useEffect(() => {
@@ -6,12 +10,15 @@ const Favorites = () => {
         document.title = 'Ulubione - Notedly.'
     });
 
-    return (
-        <div>
-            <h1>Notedly</h1>
-            <p>To sa moje ulubione notatki</p>
-        </div>
-    );
+    const { loading, error, data } = useQuery(GET_MY_FAVORITES);
+
+    if (loading) return 'Wczytywanie...';
+    if (error) return `Blad! ${error.message}`;
+    if (data.me.favorites.length !== 0) {
+        return <NoteFeed notes={data.me.favorites} />;
+    } else {
+        return <p>Brak ulubionych notatek.</p>
+    }
 };
 
 export default Favorites;

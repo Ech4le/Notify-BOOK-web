@@ -2,6 +2,10 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { format } from 'date-fns';
 import styled from 'styled-components';
+import { useQuery } from '@apollo/client';
+
+import NoteUser from './NoteUser';
+import { IS_LOGGED_IN } from '../gql/query';
 
 // Szerokosc notatki nie moze przekroczyc 800 pikseli
 const StyledNote = styled.article`
@@ -28,6 +32,10 @@ const UserActions = styled.div`
 `;
 
 const Note = ({ note }) => {
+    const { loading, error, data } = useQuery(IS_LOGGED_IN);
+    if (loading) return <p>Wczytywanie...</p>
+    if (error) return <p>Blad!</p>
+
     return (
         <StyledNote>
             <MetaData>
@@ -42,9 +50,15 @@ const Note = ({ note }) => {
                     <em>autor</em> {note.author.username} <br />
                     {format(note.createdAt, 'Do MMM YYYY')}
                 </MetaInfo>
-                <UserActions>
-                    <em>Ulubiona:</em> {note.favoriteCount}
-                </UserActions>
+                {data.isLoggedIn ? (
+                    <UserActions>
+                        <NoteUser note={note} />
+                    </UserActions>
+                ) : (
+                    <UserActions>
+                        <em>Ulubione:</em> {note.favoriteCount}
+                    </UserActions>
+                )}
             </MetaData>
             <ReactMarkdown source={note.content} />
         </StyledNote>
