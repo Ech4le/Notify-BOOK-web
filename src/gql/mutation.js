@@ -19,4 +19,19 @@ const EDIT_NOTE = gql`
     }
 `;
 
-export { EDIT_NOTE };
+const DELETE_NOTE = gql`
+    mutation deleteNote($id: ID!) {
+        deleteNote(id: $id)
+    }
+`;
+
+const TOOGLE_FAVORITE = gql`
+    mutation toogleFavorite($id: ID!) {
+        toogleFavorite(id: $id) {
+            id 
+            favoriteCount
+        }
+    }
+`;
+
+export { EDIT_NOTE, DELETE_NOTE, TOOGLE_FAVORITE };
