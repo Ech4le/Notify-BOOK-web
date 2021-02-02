@@ -64,6 +64,7 @@ typings/
 .vscode
 
 # built files
+final
 dist
 .cache
 
