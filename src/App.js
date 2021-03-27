@@ -28,6 +28,7 @@ const authLink = setContext((_, { headers }) => {
     return {
         headers: {
             ...headers,
+            credentials: 'same-origin',
             authorization: localStorage.getItem('token') || ''
         }
     };
